@@ -1,4 +1,5 @@
 const defaultNum = 1;
+
 function add(num1, num2){
     return num1 + num2;
 }
@@ -14,6 +15,7 @@ function multi(num1, num2){
 function divide(num1, num2){
     return num1 / num2;
 }
+
 // 모듈 exports
 // 반드시 코드 마지막에 위치해야 함
 // 밖으로 내보내려는 대상 정의(모든 대상X, 필요한 것만)
