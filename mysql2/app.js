@@ -90,3 +90,10 @@ function getInfo(obj){
     }
     return newAry;
 };
+
+// 삭제
+app.delete('/users/:no', async (req, res) => {
+    let userNo = req.params.no;
+    let result = await mysql.executeQuery('userDelete', userNo);
+    res.json(result);
+});

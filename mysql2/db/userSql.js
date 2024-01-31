@@ -42,10 +42,16 @@ let userUpdateInfo =
 SET user_id = ?, user_pwd = ?, user_name = ?
 WHERE user_no = ?`;  // 배열[ 단일값, 단일값, 단일값, 단일값 ]
 
+// 삭제
+let userDelete = 
+`DELETE FROM t_users
+WHERE user_no = ?;`
+
 module.exports = {
     userList, 
     userInfo,
     userInsert,
     userUpdateAll,
-    userUpdateInfo
+    userUpdateInfo,
+    userDelete
 }
