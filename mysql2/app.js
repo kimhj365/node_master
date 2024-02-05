@@ -1,12 +1,15 @@
 // app.js
-
 // 모듈
+require('dotenv').config({ path : './db/dbSetting.env'})
 const express = require('express');
 const app = express();
 const mysql = require('./db.js');
 
 // 미들웨어
+// application/json => json 형태
 app.use(express.json());
+// application/x-www-form-urlencoded => queryString 형태
+app.use(express.urlencoded({extended : false}));
 
 // listen 메소드
 app.listen(3000, () => {
@@ -22,8 +25,8 @@ app.get('/users', async (req, res) => {
 
 // 조회(단건)
 app.get('/users/:no', async (req, res) => {
-    let userNo = req.params.no;
-    let info = (await mysql.executeQuery('userInfo', userNo))[0];
+    let userId = req.params.id;
+    let info = (await mysql.executeQuery('userInfo', userId))[0];
     res.json(info);
 });
 
@@ -40,19 +43,14 @@ app.put('/users/:no', async (req, res) => {
     res.json(result);
 });
 
-app.put('/users/:no', async (req, res) => {
-    let result = await updateInfo(req);
-    res.json(result);
-});
-
 async function updateAll(request){
-    let data = [ selectedInfo(request.body.param), request.params.no];
+    let data = [ selectedInfo(request.body.param), request.params.id];
     let result = await mysql.executeQuery('userUpdateAll', data);
     return result;
 }
 
 function selectedInfo(obj){
-    let delData = ["user_no", "email"];
+    let delData = ["user_id", "user_no"];
     let newObj = {};
     let isTargeted = null;
     for(let field in obj){
@@ -72,7 +70,7 @@ function selectedInfo(obj){
 };
 
 async function updateInfo(request){
-    let data = [...getInfo(request.body.param), request.params.no];
+    let data = [...getInfo(request.body.param), request.params.id];
     let result = await mysql.executeQuery('userUpdateInfo', data);
     return result;
 }
@@ -93,7 +91,7 @@ function getInfo(obj){
 
 // 삭제
 app.delete('/users/:no', async (req, res) => {
-    let userNo = req.params.no;
+    let userNo = req.params.id;
     let result = await mysql.executeQuery('userDelete', userNo);
     res.json(result);
 });
