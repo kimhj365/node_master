@@ -24,7 +24,7 @@ app.get('/users', async (req, res) => {
 });
 
 // 조회(단건)
-app.get('/users/:no', async (req, res) => {
+app.get('/users/:id', async (req, res) => {
     let userId = req.params.id;
     let info = (await mysql.executeQuery('userInfo', userId))[0];
     res.json(info);
@@ -38,7 +38,7 @@ app.post('/users', async (req, res) => {
 });
 
 // 수정
-app.put('/users/:no', async (req, res) => {
+app.put('/users/:id', async (req, res) => {
     let result = await updateAll(req);
     res.json(result);
 });
@@ -90,8 +90,8 @@ function getInfo(obj){
 };
 
 // 삭제
-app.delete('/users/:no', async (req, res) => {
-    let userNo = req.params.id;
-    let result = await mysql.executeQuery('userDelete', userNo);
+app.delete('/users/:id', async (req, res) => {
+    let userId = req.params.id;
+    let result = await mysql.executeQuery('userDelete', userId);
     res.json(result);
 });
